@@ -1,0 +1,49 @@
+{% extends "books_app/base.html"%}
+{% load static %}
+
+
+{% block content %}
+{% include "books_app/navbar.html" %} 
+<div class="container mt-4">
+    <div class="row mb-5">
+		<div class="col-8 justify-content-start">
+            <div class="row mb-5">
+                <h3 class="title fw-bold">{{author.first_name}}  {{author.last_name}}</h3> 
+                <h5 class="title">ID: {{author.id}}</h5>
+            </div>
+        </div>   
+    </div>
+    <div class="row col-6 md-2 g-4 display-inline">        
+        <div class="col-sm-12 md-6 card-center">
+            <div class="card-header text-black bg-transparent">
+                <h4 class="card-title">Notes:</h4>
+            </div>
+            <div class="card-body text-justificy">
+                <p>{{author.notes}}</p>
+            </div>
+        </div>  
+    </div>
+    <div class="col col-sm-3 mb-5">
+        <ul class="title list-group list-group-flush">Books:
+        {% for book in booksbyauthor %}  
+            <li class="list-group-item">{{book.title}}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col-6">
+        <form action="{{author.id}}/new_book" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <select class="form-select" aria-label="Default select example" id="book_id" name="book_id">
+                    <option selected>Open this select</option>
+                    {%for book in books%}
+                    <option value={{book.id}}>{{book.title}}</option>
+                    {%endfor%} 
+                </select>
+                <!--<input type="hidden" name="author_id" value="{{author.id}}">-->
+                <input class="input-group-text  btn-success" type="submit" value="Add">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
